@@ -15,7 +15,8 @@ using System.Text;
 namespace SudokuSolver
 {
 	/// <summary>
-	/// Description of StateSpace.
+	/// StateSpace - stores which values could be in a cell
+	/// Only one value means that we are alreadz certain about cell value (definite value).
 	/// </summary>
 	public class StateSpace
 	{
@@ -43,6 +44,9 @@ namespace SudokuSolver
 			}
 		}
 		
+		/// <summary>
+		/// Removes value from StateSpace
+		/// </summary>
 		public void SetInvalid(int val)
 		{
 			lock(bits)
@@ -54,7 +58,10 @@ namespace SudokuSolver
 			}
 		}
 
-		public void ColapseTo(int val)
+		/// <summary>
+		/// Collapse StateState to just one definite values  
+		/// </summary>
+		public void CollapseTo(int val)
 		{
 			var newBits = new BitArray(Matrix.MAX, false);
 			newBits.Set(val-1, true);
@@ -68,6 +75,9 @@ namespace SudokuSolver
 			}
 		}
 		
+		/// <summary>
+		/// Apply intersection of two StateSpaces to the current instance.
+		/// </summary>
 		public void Intersect(StateSpace s2)
 		{
 			lock(bits)
@@ -79,6 +89,9 @@ namespace SudokuSolver
 			}
 		}
 		
+		/// <summary>
+		/// Prints valid value for this StateSpace (for debugging) 
+		/// </summary>
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();

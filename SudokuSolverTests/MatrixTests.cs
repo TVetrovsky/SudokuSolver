@@ -24,7 +24,7 @@ namespace SudokuSolverTests
 		{
 			var m = new Matrix();
 			
-			m[x,y].ColapseTo(val);
+			m[x,y].CollapseTo(val);
 			
 			Assert.IsTrue(m[x, y].GetValidStates().SequenceEqual(new int[] {val}));
 		}
@@ -39,7 +39,7 @@ namespace SudokuSolverTests
 		{
 			var m = new Matrix();
 			
-			m[x,y].ColapseTo(5);
+			m[x,y].CollapseTo(5);
 		}
 
 		[Test]
@@ -51,7 +51,7 @@ namespace SudokuSolverTests
 		{
 			var m = new Matrix();
 			
-			m[0,0].ColapseTo(val);
+			m[0,0].CollapseTo(val);
 		}
 
 		[Test]
@@ -61,7 +61,7 @@ namespace SudokuSolverTests
 			Matrix m = new Matrix();
 			m.ChangeObserver = () => observerCalled = true;
 			
-			m[0,0].ColapseTo(1);
+			m[0,0].CollapseTo(1);
 			
 			Assert.IsTrue(observerCalled);
 		}
@@ -71,12 +71,12 @@ namespace SudokuSolverTests
 		{
 			bool observerCalled = false;
 			Matrix m = new Matrix();
-			m[0,0].ColapseTo(1);		
+			m[0,0].CollapseTo(1);		
 			
 			m.ChangeObserver = () => observerCalled = true;
 			
 			// check observer is not called 
-			m[0,0].ColapseTo(1);
+			m[0,0].CollapseTo(1);
 			
 			Assert.IsFalse(observerCalled);
 		}		

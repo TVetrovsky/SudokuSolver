@@ -20,7 +20,7 @@ namespace SudokuSolverTests
 		{
 			int i = 0;
 			Matrix m = new Matrix();
-			Action<Matrix> solver = (mmm) => {i++; if(i<5) mmm[i,0].ColapseTo(i);};
+			Action<Matrix> solver = (mmm) => {i++; if(i<5) mmm[i,0].CollapseTo(i);};
 			var se = new SolutionExecutor(m);
 			
 			se.Execute(solver);

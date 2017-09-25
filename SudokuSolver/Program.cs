@@ -41,7 +41,7 @@ namespace SudokuSolver
 			Matrix m = new Matrix(sudoku);
 			
 			SolutionExecutor se = new SolutionExecutor(m);
-			se.Execute(Algorithms.LineChecker.CheckLines);
+			se.Execute(Algorithms.KnownConstraintsApplier.Apply);
 			
 			
 			

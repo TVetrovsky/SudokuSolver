@@ -47,7 +47,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\LineCheckerTests.cs" />
+    <Compile Include="Algorithms\KnownConstraintsApplierTests.cs" />
+    <Compile Include="Algorithms\KnownConstraintsGenericApplierTests.cs" />
     <Compile Include="MatrixTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolutionExecutorTests.cs" />
