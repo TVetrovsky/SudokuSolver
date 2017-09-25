@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 5.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuSolver", "SudokuSolver\SudokuSolver.csproj", "{7364572B-C23F-460F-B420-CB826DD7A388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuSolverTests", "SudokuSolverTests\SudokuSolverTests.csproj", "{AD62AA4A-FB7B-4524-96B4-3A27FBB291CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7364572B-C23F-460F-B420-CB826DD7A388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7364572B-C23F-460F-B420-CB826DD7A388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7364572B-C23F-460F-B420-CB826DD7A388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7364572B-C23F-460F-B420-CB826DD7A388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD62AA4A-FB7B-4524-96B4-3A27FBB291CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD62AA4A-FB7B-4524-96B4-3A27FBB291CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD62AA4A-FB7B-4524-96B4-3A27FBB291CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD62AA4A-FB7B-4524-96B4-3A27FBB291CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
