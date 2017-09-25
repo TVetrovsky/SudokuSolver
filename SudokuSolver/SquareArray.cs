@@ -17,6 +17,7 @@ namespace SudokuSolver
 		readonly int size;
 		
 		public static SquareArray Sudoku = new SquareArray(Matrix.MAX);
+		public static SquareArray Three = new SquareArray(3);
 		
 		public SquareArray(int size)
 		{

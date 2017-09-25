@@ -22,16 +22,28 @@ namespace SudokuSolver
 			this.m = m;			
 		}
 		
-		public void Execute(Action<Matrix> solver)
+		/// <summary>
+		/// Executes specified strategy until solved, no change or incorrect solution
+		/// </summary>
+		/// <param name="solver"></param>
+		/// <returns>null - valid but not solved, true - solved, false - invalid solution</returns>
+		public bool? Execute(Action<Matrix> solver)
 		{
 			bool change = true;
+			bool valid = true;
 			m.ChangeObserver = () => change = true;
+			m.InvalidStateObserver = () => valid = false;
 			
-			while(change)
+			while(change && valid)
 			{
 				change = false;
 				solver(m);
 			}
+			
+			if(!valid) // unable to solve
+				return false; 
+			
+			return m.IsSolved;			
 		}
 	}
 }

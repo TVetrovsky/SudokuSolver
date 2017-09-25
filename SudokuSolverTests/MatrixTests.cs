@@ -16,6 +16,7 @@ namespace SudokuSolverTests
 	[TestFixture]
 	public class MatrixTests
 	{
+		#region Get/Set cells
 		[Test]
 		[TestCase(0,0, 1)]
 		[TestCase(8,8, 9)]
@@ -41,19 +42,9 @@ namespace SudokuSolverTests
 			
 			m[x,y].CollapseTo(5);
 		}
+		#endregion
 
-		[Test]
-		[TestCase(-1)]
-		[TestCase(0)]
-		[TestCase(10)]
-		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void GetSetPoint_Throws_WithWrongValue(int val)
-		{
-			var m = new Matrix();
-			
-			m[0,0].CollapseTo(val);
-		}
-
+		#region Observer calls
 		[Test]
 		public void Colapse_CallsObserver()
 		{
@@ -80,5 +71,6 @@ namespace SudokuSolverTests
 			
 			Assert.IsFalse(observerCalled);
 		}		
+		#endregion
 	}
 }

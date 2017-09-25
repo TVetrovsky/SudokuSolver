@@ -18,13 +18,27 @@ namespace SudokuSolver
 	{
 		public static void Print(Matrix m)
 		{
-			SquareArray.Sudoku.IterateTwo((i, j) =>
-			                              {
-			                              	var st = m[i, j].GetValidStates().ToArray();
-			                              	Console.Write(st.Length + "   ");
-			                              	if(j==8)
-			                              		Console.WriteLine();
-			                              });
+			for(int i = 0; i < Matrix.MAX; i++)
+			{
+				for(int triple = 0 ; triple <3; triple++)
+				{
+					for(int j = 0; j < Matrix.MAX; j++)
+					{
+						var states = m[i, j].GetValidStates().Skip(triple*3).Take(3).ToArray();
+						
+						Console.Write(String.Join("", states).PadRight(3));
+						if((j % 3) == 2)
+							Console.Write(" * ");
+						else
+							Console.Write(" | ");
+					}
+					Console.WriteLine();
+				}
+				if((i % 3) == 2)
+				   	Console.WriteLine(String.Empty.PadRight(6*9, '*'));
+				else
+					Console.WriteLine(String.Empty.PadRight(6*9, '-'));
+			}
 		}
 	}
 }

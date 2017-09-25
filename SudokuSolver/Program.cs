@@ -43,6 +43,7 @@ namespace SudokuSolver
 			SolutionExecutor se = new SolutionExecutor(m);
 			se.Execute(Algorithms.KnownConstraintsApplier.Apply);
 			
+			MatrixConsolePrinter.Print(m);
 			
 			
 			Console.Write("Press any key to continue . . . ");

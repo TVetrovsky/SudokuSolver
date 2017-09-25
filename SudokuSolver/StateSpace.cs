@@ -20,13 +20,22 @@ namespace SudokuSolver
 	/// </summary>
 	public class StateSpace
 	{
-		BitArray bits;
-		Action changeObserver;
+		readonly BitArray bits;
+		readonly Action changeObserver;
+		readonly Action invalidState;
 		
-		public StateSpace(Action changeObserver = null)
+		public StateSpace(Action changeObserver = null, Action invalidState = null)
 		{
 			bits = new BitArray(Matrix.MAX,true);
 			this.changeObserver = changeObserver;
+			this.invalidState = invalidState;
+		}
+		
+		public StateSpace(StateSpace origin, Action changeObserver = null, Action invalidState = null)
+		{
+			bits = new BitArray(origin.bits);
+			this.changeObserver = changeObserver;
+			this.invalidState = invalidState;
 		}
 		
 		private static IEnumerable<int> GetValidStates(BitArray bits)
@@ -55,6 +64,9 @@ namespace SudokuSolver
 					changeObserver();
 				
 				bits.Set(val-1, false);
+				
+				if(invalidState != null && !GetValidStates(bits).Any() )
+					invalidState();
 			}
 		}
 
@@ -74,23 +86,9 @@ namespace SudokuSolver
 				bits.And(newBits);
 			}
 		}
-		
+
 		/// <summary>
-		/// Apply intersection of two StateSpaces to the current instance.
-		/// </summary>
-		public void Intersect(StateSpace s2)
-		{
-			lock(bits)
-			{
-				if(changeObserver != null && !GetValidStates().SequenceEqual(GetValidStates(s2.bits)))
-				   changeObserver();
-	
-				bits.And(s2.bits);
-			}
-		}
-		
-		/// <summary>
-		/// Prints valid value for this StateSpace (for debugging) 
+		/// Prints valid values for this StateSpace (for debugging) 
 		/// </summary>
 		public override string ToString()
 		{
