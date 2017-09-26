@@ -110,58 +110,71 @@ namespace SudokuSolver
 			get{ return matrix[r, c];}
 		}
 		
-		public bool IsSolved
+		public enum StateEnum
 		{
-			get
-			{
-				// checks whether StateSpace is collapsed and the definite number is used just once against "storage"
-				Func<BitArray, StateSpace, bool> checker = (storage, cell) =>
-				{
-					var possibleValues = cell.GetValidStates().ToArray();
-					if(possibleValues.Length != 1)
-						return false;
-					if(storage[possibleValues[0]-1]) // the value already was there
-						return false; 
-					storage[possibleValues[0]-1] = true;
-					return true;
-				};
-
-				// check rows and columns
-				for(int i = 0 ; i<MAX; i++)
-				{
-					var col = new BitArray(MAX, false);
-					var row = new BitArray(MAX, false);
-					
-					for(int j = 0; j < MAX; j++)
-					{
-						if(!checker(row, matrix[i, j]))
-						   return false;
-						if(!checker(col, matrix[j, i]))
-						   return false;
-					}
-				}
-				
-				bool result = true;
-				// check subsquares
-				SquareArray.Three.IterateTwo(
-					(base_i, base_j) =>
-					{
-						if(result)
-						{
-							var storage = new BitArray(MAX, false);
-							
-					    	SquareArray.Three.IterateTwo(
-								(i, j) =>
-								{
-									if(!checker(storage, matrix[base_i*3 + i, base_j*3 + j]))
-										result = false;									
-								});
-						}
-					});
-				
-				return result;
-			}
+			Invalid = -1,
+			Valid = 0,
+			Solved = 1
 		}
 		
+		public StateEnum GetState()
+		{
+			// checks whether StateSpace is collapsed and the definite number is used just once against "storage"
+			bool undefiniteValueExists = false;
+			
+			Func<BitArray, StateSpace, bool> checker = (storage, cell) =>
+			{
+				var possibleValues = cell.GetValidStates().ToArray();
+				if(possibleValues.Length == 1) // cell value is already definite
+				{
+					if(storage[possibleValues[0]-1]) // the value already was there -> rules violation
+						return false; 
+					storage[possibleValues[0]-1] = true;						
+				}
+				else
+					undefiniteValueExists = true;
+				
+				return true;					
+			};
+
+			// check rows and columns
+			for(int i = 0 ; i<MAX; i++)
+			{
+				var col = new BitArray(MAX, false);
+				var row = new BitArray(MAX, false);
+				
+				for(int j = 0; j < MAX; j++)
+				{
+					if(!checker(row, matrix[i, j]))
+					   return StateEnum.Invalid;
+					if(!checker(col, matrix[j, i]))
+					   return StateEnum.Invalid;
+				}
+			}
+			
+			bool result = true;
+			// check subsquares
+			SquareArray.Three.IterateTwo(
+				(base_i, base_j) =>
+				{
+					if(result)
+					{
+						var storage = new BitArray(MAX, false);
+						
+				    	SquareArray.Three.IterateTwo(
+							(i, j) =>
+							{
+								if(!checker(storage, matrix[base_i*3 + i, base_j*3 + j]))
+									result = false;									
+							});
+					}
+				});
+			
+			if(!result)
+				return StateEnum.Invalid;
+			if(undefiniteValueExists)
+				return StateEnum.Valid;
+			return StateEnum.Solved;
+		}		
 	}
 }

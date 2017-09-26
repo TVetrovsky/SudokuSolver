@@ -11,9 +11,6 @@ using System.Linq;
 
 namespace SudokuSolver
 {
-	/// <summary>
-	/// Description of Class1.
-	/// </summary>
 	public static class MatrixConsolePrinter
 	{
 		public static void Print(Matrix m)

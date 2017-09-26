@@ -51,12 +51,14 @@
     <Compile Include="Algorithms\BackTracking.cs" />
     <Compile Include="Algorithms\KnownConstraintsGenericApplier.cs" />
     <Compile Include="Algorithms\KnownConstraintsApplier.cs" />
+    <Compile Include="Algorithms\StupidBackTracking.cs" />
     <Compile Include="MatrixConsolePrinter.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateSpace.cs" />
     <Compile Include="SquareArray.cs" />
+    <Compile Include="SudokuTemplates.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

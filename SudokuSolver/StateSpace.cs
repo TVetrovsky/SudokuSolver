@@ -16,7 +16,7 @@ namespace SudokuSolver
 {
 	/// <summary>
 	/// StateSpace - stores which values could be in a cell
-	/// Only one value means that we are alreadz certain about cell value (definite value).
+	/// Only one value means that we are already certain about cell value (definite value).
 	/// </summary>
 	public class StateSpace
 	{
@@ -47,10 +47,7 @@ namespace SudokuSolver
 		
 		public IEnumerable<int> GetValidStates()
 		{
-			lock(bits)
-			{
-				return GetValidStates(bits);
-			}
+			return GetValidStates(bits);
 		}
 		
 		/// <summary>
@@ -58,16 +55,13 @@ namespace SudokuSolver
 		/// </summary>
 		public void SetInvalid(int val)
 		{
-			lock(bits)
-			{
-				if(bits[val-1] && changeObserver != null)
-					changeObserver();
-				
-				bits.Set(val-1, false);
-				
-				if(invalidState != null && !GetValidStates(bits).Any() )
-					invalidState();
-			}
+			if(bits[val-1] && changeObserver != null)
+				changeObserver();
+			
+			bits.Set(val-1, false);
+			
+			if(invalidState != null && !GetValidStates(bits).Any() )
+				invalidState();
 		}
 
 		/// <summary>
@@ -78,13 +72,10 @@ namespace SudokuSolver
 			var newBits = new BitArray(Matrix.MAX, false);
 			newBits.Set(val-1, true);
 			
-			lock(bits)
-			{
-				if(changeObserver != null && !GetValidStates(newBits).SequenceEqual(GetValidStates(bits)))
-				   changeObserver();
-				
-				bits.And(newBits);
-			}
+			if(changeObserver != null && !GetValidStates(newBits).SequenceEqual(GetValidStates(bits)))
+			   changeObserver();
+			
+			bits.And(newBits);
 		}
 
 		/// <summary>

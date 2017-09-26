@@ -15,7 +15,7 @@ namespace SudokuSolver.Algorithms
 	/// <summary>
 	/// Description of BackTracking.
 	/// </summary>
-	public static class BackTracking
+	public static class StupidBackTracking
 	{
 		/// <summary>
 		/// Applies backtracking until solution is found or figured out that matrix is invalid
@@ -25,12 +25,6 @@ namespace SudokuSolver.Algorithms
 		{
 			Debug.WriteLine(context);
 			
-			if(!KnownConstraintsApplier.ApplyAll(m))
-				return false; // during application of constraint we got invalid matrix
-			
-			if(m.GetState() == Matrix.StateEnum.Solved)
-				return true;
-			
 			var pivot = SelectPivot(m);			
 			var pivotPossibleValues = m[pivot.Item1, pivot.Item2].GetValidStates();
 			
@@ -38,6 +32,16 @@ namespace SudokuSolver.Algorithms
 			{
 				var copy = new Matrix(m);
 				copy[pivot.Item1, pivot.Item2].CollapseTo(possibleValueOfPivot);
+				
+				var state = copy.GetState();
+				if(state==Matrix.StateEnum.Solved)
+				{
+					m = copy;
+					return true;
+				}
+				else if( state == Matrix.StateEnum.Invalid)
+					continue;
+								
 				var newContext = context + String.Format("Pivot={0},{1}; TestValue={2} | ", pivot.Item1, pivot.Item2, possibleValueOfPivot);
 				if(ApplyAll(ref copy, newContext))
 				{

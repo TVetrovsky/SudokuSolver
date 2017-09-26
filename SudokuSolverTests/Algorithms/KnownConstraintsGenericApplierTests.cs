@@ -59,7 +59,7 @@ namespace SudokuSolverTests.Algorithms
 			var m = new Matrix();
 			m[1,2].CollapseTo(5);
 			
-			KnownConstraintsGenericApplier.Apply(m, (mmm, row, col) => Matrix.CellSelectors.SelectSquareCells(mmm, row, col));
+			KnownConstraintsGenericApplier.Apply(m, Matrix.CellSelectors.SelectSquareCells);
 		
 			SquareArray.Sudoku.IterateTwo((row, col) =>
 			                              {
