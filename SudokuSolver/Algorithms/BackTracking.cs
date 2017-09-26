@@ -8,6 +8,7 @@
  */
 using System;
 using System.Linq;
+using System.Diagnostics;
 
 namespace SudokuSolver.Algorithms
 {
@@ -18,7 +19,7 @@ namespace SudokuSolver.Algorithms
 	{
 		public static bool ApplyAll(ref Matrix m, string context = "")
 		{
-			Console.WriteLine(context);
+			Debug.WriteLine(context);
 			
 			if(!KnownConstraintsApplier.ApplyAll(m))
 				return false; // during application of constraint we got invalid matrix
@@ -46,21 +47,12 @@ namespace SudokuSolver.Algorithms
 
 		static Tuple<int, int> SelectPivot(Matrix m)
 		{
-			var min = m[0,0].GetValidStates().ToArray();
-			int r = 0, c = 0;
-			SquareArray.Sudoku.IterateTwo(
-				(i, j) =>
-				{
-					var cur = m[i, j].GetValidStates().ToArray();					
-					if(cur.Length > 1 && cur.Length <= min.Length)
-					{
-						min = cur;
-						r = i;
-						c = j;
-					}
-				});
+			for(int i = 0; i<Matrix.MAX; i++)
+				for(int j = 0; j < Matrix.MAX; j++)
+					if (m[i, j].GetValidStates().Skip(1).Any())
+						return new Tuple<int,int> (i, j);			
 			
-			return new Tuple<int,int> (r, c);
+			throw new Exception("Matrix is solved or in invalid state.");
 		}
 	}
 }
