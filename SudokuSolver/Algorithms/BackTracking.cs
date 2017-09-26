@@ -17,6 +17,10 @@ namespace SudokuSolver.Algorithms
 	/// </summary>
 	public static class BackTracking
 	{
+		/// <summary>
+		/// Applies backtracking until solution is found or figured out that matrix is invalid
+		/// </summary>
+		/// <returns>true=solved, otherwise false</returns>
 		public static bool ApplyAll(ref Matrix m, string context = "")
 		{
 			Debug.WriteLine(context);
@@ -28,13 +32,13 @@ namespace SudokuSolver.Algorithms
 				return true;
 			
 			var pivot = SelectPivot(m);			
-			var possibleValues = m[pivot.Item1, pivot.Item2].GetValidStates();
+			var pivotPossibleValues = m[pivot.Item1, pivot.Item2].GetValidStates();
 			
-			foreach(var possibleValue in possibleValues)
+			foreach(var possibleValueOfPivot in pivotPossibleValues)
 			{
 				var copy = new Matrix(m);
-				copy[pivot.Item1, pivot.Item2].CollapseTo(possibleValue);
-				var newContext = context + String.Format("Pivot={0},{1}; TestValue={2} | ", pivot.Item1, pivot.Item2, possibleValue);
+				copy[pivot.Item1, pivot.Item2].CollapseTo(possibleValueOfPivot);
+				var newContext = context + String.Format("Pivot={0},{1}; TestValue={2} | ", pivot.Item1, pivot.Item2, possibleValueOfPivot);
 				if(ApplyAll(ref copy, newContext))
 				{
 					m = copy;

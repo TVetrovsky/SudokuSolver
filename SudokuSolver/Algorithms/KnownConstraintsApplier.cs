@@ -12,7 +12,7 @@ using System.Linq;
 namespace SudokuSolver.Algorithms
 {
 	/// <summary>
-	/// Applies constraints create by already known definite values in rows, columns and the sub-square(3x3)
+	/// Applies constraints created by already known definite values in rows, columns and sub-squares(3x3)
 	/// </summary>
 	public static class KnownConstraintsApplier
 	{		
