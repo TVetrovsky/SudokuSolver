@@ -17,6 +17,9 @@ namespace SudokuSolver.Algorithms
 	/// </summary>
 	public static class KnownConstraintsApplier
 	{		
+		/// <summary>
+		/// Applies one walkthroug of constrints 
+		/// </summary>
 		public static void Apply(Matrix m)
 		{			
 			KnownConstraintsGenericApplier.Apply(m, 
@@ -25,5 +28,30 @@ namespace SudokuSolver.Algorithms
 						.Union(Matrix.CellSelectors.SelectSquareCells(matrix, row, col))
 				);
 		}		
+		
+		/// <summary>
+		/// Applies constrints until solution is invalid or all constraints were applied 
+		/// </summary>
+		/// <returns>true - matrix is still valid (=solved or not yet solved)</returns>
+		public static bool ApplyAll(Matrix m)
+		{			
+			bool change = true;
+			bool valid = true;
+			m.ChangeObserver = () => change = true;
+			m.InvalidStateObserver = () => valid = false;
+			int i = 0;
+			
+			while(change && valid)
+			{
+				change = false;
+				Apply(m);
+				i++;
+			}
+			
+			if(!valid) // unable to solve
+				return false; 
+			
+			return true;						
+		}
 	}
 }

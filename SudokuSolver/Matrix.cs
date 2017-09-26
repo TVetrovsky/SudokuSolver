@@ -120,9 +120,9 @@ namespace SudokuSolver
 					var possibleValues = cell.GetValidStates().ToArray();
 					if(possibleValues.Length != 1)
 						return false;
-					if(storage[possibleValues[0]]) // the value already was there
+					if(storage[possibleValues[0]-1]) // the value already was there
 						return false; 
-					storage[possibleValues[0]] = true;
+					storage[possibleValues[0]-1] = true;
 					return true;
 				};
 
@@ -153,7 +153,7 @@ namespace SudokuSolver
 					    	SquareArray.Three.IterateTwo(
 								(i, j) =>
 								{
-									if(!checker(storage, matrix[base_i*3 + i, base_j*3 + i]))
+									if(!checker(storage, matrix[base_i*3 + i, base_j*3 + j]))
 										result = false;									
 								});
 						}
