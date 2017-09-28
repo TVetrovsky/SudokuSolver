@@ -9,43 +9,61 @@
 using System;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace SudokuSolver.Algorithms
 {
 	/// <summary>
 	/// Description of BackTracking.
 	/// </summary>
-	public static class StupidBackTracking
+	public static class StupidBackTrackingWithTPL
 	{
 		/// <summary>
 		/// Applies backtracking until solution is found or figured out that matrix is invalid
 		/// </summary>
 		/// <returns>returns Matrix if it was solved, otherwise null</returns>
-		public static Matrix ApplyAll(Matrix m, string context = "")
+		public static Matrix ApplyAll(Matrix m, CancellationTokenSource cts=null, string context = "")
 		{
 			Debug.WriteLine(context);
 			
+			if(cts == null)
+				cts = new CancellationTokenSource();
+						
+			Matrix result = null;
+			
 			var pivot = SelectPivot(m);			
 			var pivotPossibleValues = m[pivot.Item1, pivot.Item2].GetValidStates();
-			
-			foreach(var possibleValueOfPivot in pivotPossibleValues)
-			{
+						
+			Parallel.ForEach(pivotPossibleValues, possibleValueOfPivot => 
+			{		
+				if(cts.IsCancellationRequested)
+					return;
+				
 				var copy = new Matrix(m);
 				copy[pivot.Item1, pivot.Item2].CollapseTo(possibleValueOfPivot);
 				
 				var state = copy.GetState();
-				if(state==Matrix.StateEnum.Solved)
-					return copy;
-				else if( state == Matrix.StateEnum.Invalid)
-					continue;
+				if(state == Matrix.StateEnum.Invalid)
+					return;
+				if(state == Matrix.StateEnum.Solved)
+				{					
+					result = copy;
+					cts.Cancel();
+					return;
+				} 
 								
 				var newContext = context + String.Format("Pivot={0},{1}; TestValue={2} | ", pivot.Item1, pivot.Item2, possibleValueOfPivot);
-				Matrix tempResult = ApplyAll(copy, newContext);
+				Matrix tempResult = ApplyAll(copy, cts, newContext);
 				if(tempResult != null)
-					return tempResult;
-			}
+				{					
+					result = tempResult;
+					cts.Cancel();					
+				}
+			});
 			
-			return null;
+			return result;
 		}
 
 		static Tuple<int, int> SelectPivot(Matrix m)

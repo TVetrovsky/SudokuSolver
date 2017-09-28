@@ -14,14 +14,15 @@ namespace SudokuSolver
 	{
 		public static void Main(string[] args)
 		{
-			var m = new Matrix(SudokuTemplates.Simple);
+			var m = new Matrix(SudokuTemplates.Hard);
+			var result = Algorithms.StupidBackTrackingWithTPL.ApplyAll(m);
 			
-			if(Algorithms.StupidBackTracking.ApplyAll(ref m))
+			if(result != null)
 				Console.WriteLine("Solved: ");
-			else
-				Console.WriteLine("Not possible to continue from: ");
+			else 
+				Console.WriteLine("Not possible to solve.");
 			
-			MatrixConsolePrinter.Print(m);
+			MatrixConsolePrinter.Print(result);
 						
 			Console.Write("Press any key to continue . . . ");
 			Console.ReadKey(true);

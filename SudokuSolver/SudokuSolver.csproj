@@ -52,6 +52,7 @@
     <Compile Include="Algorithms\KnownConstraintsGenericApplier.cs" />
     <Compile Include="Algorithms\KnownConstraintsApplier.cs" />
     <Compile Include="Algorithms\StupidBackTracking.cs" />
+    <Compile Include="Algorithms\StupidBackTrackingWithTPL.cs" />
     <Compile Include="MatrixConsolePrinter.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Program.cs" />
